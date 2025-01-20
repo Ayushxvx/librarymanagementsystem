@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1a202c; 
+            color: #edf2f7; 
+        }
+    </style>
+</head>
+<body>
+
+<nav class="bg-gray-900 p-4 flex justify-evenly items-center">
+    <div>
+        <a href="/" class="text-white font-bold text-lg">Home</a>
+    </div>
+    <div>
+        <a href="https://ayushxvxportfolio.netlify.app" class="text-gray-300 hover:text-white">About Me</a>
+    </div>
+
+    <div class="space-x-4">
+        {% if request.user.is_authenticated %}
+            <a href="/register" class="bg-indigo-600 text-gray-100 px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300">Register as Member</a>
+            <a href="/logout" class="bg-red-600 text-gray-100 px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300">Logout</a>
+        {% else %}
+            <a href="/signup" class="bg-indigo-600 text-gray-100 px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300">Sign Up</a>
+            <a href="/login" class="bg-gray-700 text-gray-100 px-4 py-2 rounded-lg hover:bg-gray-800 transition-all duration-300">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="p-4 flex justify-center mt-6">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="flex items-center">
+            <input type="text" placeholder="Search books..." class="bg-gray-700 text-gray-100 px-4 py-2 rounded-l-lg focus:outline-none focus:bg-gray-800 focus:text-white" name="query" required>
+            <button type="submit" class="bg-indigo-600 text-gray-100 px-4 py-2 rounded-r-lg hover:bg-indigo-700 transition-all duration-300">
+                Search
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="p-4">
+    <h2 class="text-2xl font-semibold text-center mb-6">Books</h2>
+    {% for book in books %}
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-900 transition-all duration-300">
+        <h3 class="text-xl text-white font-semibold">{{ book.title }}</h3>
+        <p class="text-gray-300 mt-2">{{ book.author }}</p>
+        <p class="text-gray-400 mt-2">Serial No: {{ book.serial_number }}</p>
+        <div class="mt-6 flex justify-center">
+            <a href="/rent/{{ book.id }}" class="bg-indigo-600 text-gray-100 px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300">Rent This Book</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
