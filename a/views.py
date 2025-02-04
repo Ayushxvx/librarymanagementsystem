@@ -26,7 +26,7 @@ def signup(request):
         elif User.objects.filter(email=email).exists():
             messages.error(request,"Email already taken")
         else:
-            user = User.objects.create(username=username,password=password,email=email)
+            user = User.objects.create_user(username=username,password=password,email=email)
             messages.success(request,"User created successfully")
     return render(request,"a/signup.html",{})
 
